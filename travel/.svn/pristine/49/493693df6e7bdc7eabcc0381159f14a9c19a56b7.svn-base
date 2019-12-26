@@ -1,0 +1,79 @@
+package com.roadruwa.web;
+
+import java.util.HashMap;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.roadruwa.service.PointService;
+import com.roadruwa.service.userService;
+import com.roadruwa.vo.PointVo;
+import com.roadruwa.vo.UserVo;
+
+@Controller
+public class mypageController {
+	private final Log logger = LogFactory.getLog(getClass());
+	
+	@Inject
+	private userService userService;
+	
+	@Inject
+	private PointService pointSerivce;
+
+	@RequestMapping("/myPage.do")
+	public String myPage() {
+		return "myPage/myPage";
+	}
+
+	@RequestMapping("/myBuy.do")
+	public String myBuy() {
+		return "myPage/myBuy";
+	}
+
+	@RequestMapping(value="/myPoint.do", method=RequestMethod.GET)
+	public String myPoint(Model model, HttpSession session) {
+		String u_id = (String)session.getAttribute("u_id");
+		List<PointVo> list = pointSerivce.pointList(u_id);
+		model.addAttribute("Plist", list);
+		return "myPage/myPoint";
+	}
+
+	@RequestMapping("/myMessage.do")
+	public String myMessage() {
+		return "myPage/myMessage";
+	}
+
+	@RequestMapping(value="/mySetting.do", method=RequestMethod.GET)
+	public String mySetting(Model model, HttpSession session) {
+		String u_id = (String)session.getAttribute("u_id");
+		List<UserVo> list = userService.memberList(u_id);
+		model.addAttribute("list", list);
+		return "myPage/mySetting";
+	}
+
+
+	@RequestMapping("/writetest.do")
+	public String writetest() {
+		return "writetest";
+	}
+
+	@RequestMapping("/test.do")
+	public String test() {
+		return "test";
+	}
+
+}

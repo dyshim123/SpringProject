@@ -1,0 +1,18 @@
+package com.roadruwa.dao;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.roadruwa.vo.UserVo;
+
+public interface UserDao {
+
+	public UserVo getUserVoItem(@Param("userid") String userid);
+
+	public int updateUserVo(UserVo userVo);
+
+	public void write(UserVo vo);
+	
+	public UserVo getUserCheck(@Param("uName") String uName, @Param("uEmail") String uEmail);
+	
+	public UserVo IdCheck(@Param("uId") String uId);
+}

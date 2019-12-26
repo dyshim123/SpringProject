@@ -1,0 +1,12 @@
+package com.roadruwa.service;
+
+import java.util.List;
+
+import com.roadruwa.vo.BoardVo;
+
+
+public interface BoardService {
+	public List<BoardVo> getBoardList(String lotation, Integer day,
+			Integer cost, String trans, String tema,
+			String search);
+}

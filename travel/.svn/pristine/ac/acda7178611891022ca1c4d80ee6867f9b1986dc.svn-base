@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roadruwa.dao.ManagerDao">
+<resultMap id="managerMap" type="ManagerVo">
+		<result column="managerid" property="managerId" jdbcType="VARCHAR" />
+		<result column="managerpasswd" property="managerPw" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getManagerVoItem" resultMap="managerMap" parameterType="String">
+		select * from manager
+		where managerid = #{managerId} 
+	</select>
+	
+</mapper>

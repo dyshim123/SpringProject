@@ -1,0 +1,150 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<link rel="stylesheet" href="../../../assets/bootstrap-4.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../assets/css/main.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../../../assets/css/footer.css" />
+<link rel="stylesheet" media="(max-width: 320px)" />
+<style>
+#clr {
+ background-color: #E2F4E5;
+  margin-bottom: 0.8rem;
+  height: 300px;
+}
+
+#si {
+      font-size: 1.2rem;
+      padding-left: 0;
+}
+
+#le {
+  padding-right:20px;
+}
+
+ p {
+     padding-top: 20px;
+ }
+ td {
+  text-align: center;
+ }
+</style>
+</head>
+<body>
+<%@ include file="../header.jsp" %>
+<div class="jumbotron btm jumbotron-fluid" id="clr">
+  <div class="container">
+    <h1><b>dyshim123</b> 님 방문해주셔서 감사합니다.</h1>
+   <h4> <p>포인트: 2000 p</p></h4>
+  </div>
+</div>
+<div class="container">
+<nav class="navbar navbar-expand-lg navbar-light"  id="si">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active" id="le">
+        <a class="nav-link" href="myPage.do">내 게시물</a>
+      </li>
+      <li class="nav-item" id="le">
+        <a class="nav-link" href="myBuy.do">구매리스트</a>
+      </li>
+      <li class="nav-item" id="le">
+        <a class="nav-link" href="myPoint.do">포인트</a>
+      </li>
+       <li class="nav-item" id="le">
+        <a class="nav-link" href="myMessage.do">쪽지</a>
+      </li>
+       <li class="nav-item" id="le">
+        <a class="nav-link" href="mySetting.do">설정</a>
+      </li>
+    </ul>
+    <span class="navbar-text">
+     글쓰기
+    </span>
+  </div>
+</nav>
+<br>  <h4>
+         <b>내정보</b>
+      </h4>
+      <br>
+               <table class="table table-bordered tb" style="width: 60%; margin: auto;">
+            <thead>
+            </thead>
+            <colgroup>
+               <col width="25%">
+               <col width="75%">
+            </colgroup>
+            <tbody>
+               <tr>
+                  <td><label for="id">Id</label></td>
+                  <td>dyshim123</td>
+               </tr>
+               <tr>
+                  <td><label for="name">Name</label></td>
+                  <td>심다영</td>
+               </tr>
+               <tr>
+                  <td><label for="age">Age</label></td>
+                  <td>23</td>
+               </tr>
+               <tr>
+                  <td><label for="phone">Phone</label></td>
+                  <td>0102938373</td>
+               </tr>
+               <tr>
+                  <td><label for="email">Email</label></td>
+                  <td>dyshim123@daum.net</td>
+               </tr>
+            </tbody>
+         </table>
+         <br><br>
+    <table style=" margin: auto;"><tr><td style="padding-left: 20px;">
+      <button type="button" class="butt" onclick="location.href='memberUpdateForm.jsp'">수정</button>
+  </td><td style="padding-left: 20px;">
+      <button type="button" class="butt" onclick="location.href='memberDeleteForm.jsp'">탈퇴</button>
+</td></tr></table>
+      </div>
+
+<script src="../../../assets/js/jquery.min.js"></script>
+	<script src="../../../assets/js/jquery.dropotron.min.js"></script>
+	<script src="../../../assets/js/browser.min.js"></script>
+	<script src="../../../assets/bootstrap-4.1.0/js/bootstrap.min.js"></script>
+	
+	<!-- Footer(s) -->
+	<footer id="footer">
+		<ul class="copyright">
+			<li>사업자등록번호 : 000-00-00000 | 통신판매업신고번호 : 2018-서울00-00000 |</li>
+			<br>
+			<br>
+			<li><a href="http://html5up.net">상호명 roadruwa | 대표 : 000 |
+					개인정보책임자 : 000</a></li>
+			<br>
+			<br>
+			<li>일반 전화문의 : 0000-0000 | 일반 이메일문의 : dyshim123@daum.com 운영시간(한국)
+				09:00 ~ 22:00, 주말/공휴일 포함.</li>
+			<br>
+			<br>
+			<li>마케팅/제휴 이메일문의 :dyshim123@daum.com 운영시간(한국) 09:00 ~ 18:00,
+				주말/공휴일 휴무</li>
+			<br>
+			<br>
+			<li>자사는 서울특별시관광협회 공제영업보증보험에 가입이 되어 있습니다.</li>
+			<br>
+			<br>
+			<li>rodruwa은 통신판매중개자이며 통신판매의 당사자가 아닙니다. 따라서 rodruwa은 상품·거래정보 및
+				거래에 대하여 책임을 지지 않습니다.</li>
+		</ul>
+	</footer>	
+
+	
+</body>
+</html>

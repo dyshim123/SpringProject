@@ -1,0 +1,26 @@
+@charset "EUC-KR";
+
+.bnav {
+	background: #fff;
+}
+
+.btn-ff {
+	color: #fff;
+	background-color: #2C96ED;
+	border-color: #2C96ED;
+}
+
+.modal-header, h4 a, .close {
+	background-color: #75B8F0;
+	color: white !important;
+	text-align: center;
+	font-size: 30px;
+}
+
+.modal-footer {
+	background-color: #75B8F0;
+}
+
+.h_set {
+	cursor: pointer;
+}

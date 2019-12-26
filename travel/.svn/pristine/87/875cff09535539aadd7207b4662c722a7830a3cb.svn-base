@@ -1,0 +1,40 @@
+package com.roadruwa.service.imp;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+
+import com.roadruwa.dao.ManagerDao;
+import com.roadruwa.service.ManagerService;
+import com.roadruwa.vo.ManagerVo;
+
+@Service("managerService")
+public class ManagerServiceImp implements ManagerService {
+private final Log logger = LogFactory.getLog(getClass());
+	
+	@Resource(name="managerDao")
+	private ManagerDao managerDao;
+
+	@Override
+	public int isValidManager(String managerId, String managerPw) {
+		ManagerVo user = managerDao.getManagerVoItem(managerId);
+		int rtnStat = -1;
+
+		if (user == null) {
+			// ID존재 하지 않음.(그런 유저는 없어요.)
+			rtnStat = 1;
+		} else {
+			if (managerPw.equals(user.getManagerPw())) {
+				// 맞아요. 패스워드도 일치 하는군요.
+				rtnStat = 0;
+			} else {
+				rtnStat = 2;
+			}
+		}
+		return rtnStat;
+	}
+}

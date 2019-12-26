@@ -1,0 +1,12 @@
+package com.roadruwa.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.roadruwa.vo.ManagerVo;
+
+public interface ManagerDao {
+
+	public ManagerVo getManagerVoItem(@Param("managerId") String managerId);
+}

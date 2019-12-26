@@ -1,0 +1,90 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+#chargeModal input {
+	border: 2px solid #2C96ED;
+	height: 50px;
+	width: 320px;
+	margin-left: 70px;
+	padding: 5px;
+	text-align: center;
+}
+</style>
+</head>
+	<%@ include file="myPageHeader.jsp"%>
+	<br>
+	<table>
+		<tr>
+			<td>
+				<h4>
+					<b>내 포인트</b>
+				</h4>
+			</td>
+			<td style="padding-left: 900px;">
+				<button type="button" class="btn btn-outline-primary"
+					data-toggle="modal" data-target="#chargeModal">충전하기</button>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">날짜</th>
+				<th scope="col">내역</th>
+				<th scope="col">거래포인트</th>
+				<th scope="col">잔여포인트</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>2019-03-21</td>
+				<td class="txt_line">글 구매</td>
+				<td>500p</td>
+				<td>1000p</td>
+			</tr>
+
+		</tbody>
+	</table>
+	</div>
+	<div class="modal fade" role="dialog" id="chargeModal">
+		<div class="modal-dialog">
+			<div class="modal-content mcc">
+				<div class="atitle">
+					<h2>
+						<b>충전하기</b>
+					</h2>
+				</div>
+				<img src="#" class="chim"> <input type="text" class="tb"
+					name="rg" placeholder="충전할 포인트를 입력하세요." numberOnly />
+				<hr>
+				<div class="no">
+					현재 보유한 포인트
+					<div class="imgp2">
+						<img src="#" id="imgp">
+					</div>
+					<div class="now1">1000</div>
+				</div>
+				<div class="no">
+					충전 후 포인트
+					<div class="imgp2">
+						<img src="#" id="imgp">
+					</div>
+					<div class="now1" id="ccc">300</div>
+				</div>
+				<div class="no">
+					<button id="mbut" class="mbut">구매</button>
+					<button class="mbut2" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../../assets/js/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<%@ include file="../footer.jsp"%>

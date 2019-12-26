@@ -1,0 +1,16 @@
+uploadRoot=D:\\dev_room\\upload
+
+#database(Mariadb SQL) 
+#driverClassName=org.mariadb.jdbc.Driver
+driverClassName=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+url=jdbc:log4jdbc:mariadb://itoms.kr:3306/dadang?useUnicode=yes&amp;characterEncoding=UTF8&amp;autoReconnect=true&amp;autoReconnectForPools=true&amp;allowMultiQueries=true
+username=dadang
+password=dadang6521
+
+#Google OAuth
+clientId=591020674676-olanm575jb0i5qgnkl08rgqc9ce5di4e.apps.googleusercontent.com
+clientSecret=4jJcVMaUmNOEJ9-1T_1a6v9Y
+redirectUri=http://localhost/oauth2callback.do
+
+#logback path
+logs.dir=D:/dev_room/logs

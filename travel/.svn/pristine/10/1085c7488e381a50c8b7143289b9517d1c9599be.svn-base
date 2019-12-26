@@ -1,0 +1,23 @@
+package com.roadruwa.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import com.roadruwa.vo.BoardDayVo;
+import com.roadruwa.vo.BoardVo;
+
+
+public interface BoardService {
+	public List<BoardVo> getBoardList(String lotation, Integer day,
+			Integer cost, String trans, String tema,
+			String search);
+	
+	public List<BoardVo> getBoardpopList(String lotation, Integer day,
+			Integer cost, String trans, String tema,
+			String search);
+	
+	public void boardinsert(BoardVo board);
+   
+	public void boardDayinsert(BoardDayVo dayvo);
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder> 
+            <pattern>%date %c [%thread] [%-5level] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="jdbc" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder> 
+            <pattern>%date jdbc %c [%thread] [%-5level] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="jdbc.resultset" additivity="false" level="error">
+        <appender-ref ref="jdbc"/>
+    </logger>
+    
+    <logger name="jdbc.connection" additivity="false" level="error">
+        <appender-ref ref="stdout"/>
+    </logger>    
+    
+    <logger name="jdbc.audit" additivity="false" level="error">
+        <appender-ref ref="stdout"/>
+    </logger>
+    
+    <root level="debug">
+        <appender-ref ref="stdout" />
+    </root>
+
+</configuration>

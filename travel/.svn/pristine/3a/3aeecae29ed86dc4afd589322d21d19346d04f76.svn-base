@@ -1,0 +1,122 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../../../assets/css/card.css" />
+</head>
+	<%@ include file="myPageHeader.jsp"%>
+	<br>
+	<h4>
+		<b>내 게시물</b>
+	</h4>
+	<br>
+	<!--  <div>내가 쓴 상품이 없습니다.</div> -->
+<div class="row">
+		<c:forEach var="detail" items="${myWrite}">
+		<div class="col-lg-4" id="js-load">
+			<!-- /.panel -->
+			<section class="box special" data-toggle="modal"
+				data-target="#mainModal" onclick="show('${detail.bTitle}',
+                    '${detail.bCate}','${detail.uId}','${detail.bDay1}',
+                    '${detail.bDay2}','${detail.bAc}','${detail.bPic1}',
+                    '${detail.bPic2}','${detail.bPic3}','${detail.bPrice}',
+                    '${detail.bLo}','${detail.bNum}')"> 
+				<span class="image featured"><img src="<c:url value="/image/${detail.bPic1}"/>" alt="" class="mip" /></span>
+				<c:if test="${detail.appr == '미승인'}">
+					<div id="appr1">미승인</div>
+				</c:if>
+				<c:if test="${detail.appr == '승인'}">
+					<div id="appr">승인</div>
+				</c:if>
+				<div class="txt_line1">${detail.bTitle}</div>
+			</section>
+		</div>
+		
+		</c:forEach>
+	</div>
+	<script type="text/javascript">
+   function show(b_title, b_cate, u_id, b_day1, b_day2, b_ac, b_pic1, b_pic2,
+         b_pic3, b_price, b_lo, b_num) { 
+	   
+	   $("#title").html(b_title);
+	      $("#cate").html(b_cate);
+	      $("#id").html(u_id);
+	      $("#day1").html(b_day1);
+	      $("#day2").html(b_day2);
+	      $("#ac").html(b_ac);
+	      $("#price").html(b_price);
+	      $("#loc").html(b_lo);
+	      $("#b_num").html(b_num);
+	     
+	      document.getElementById('profile-upload').style.backgroundImage = 'url(/image/'
+	            + b_pic1 + ')';
+	      document.getElementById('profile-upload2').style.backgroundImage = 'url(/image/'
+	            + b_pic2 + ')';
+	      document.getElementById('profile-upload3').style.backgroundImage = 'url(/image/'
+	            + b_pic3 + ')';
+	      //modal을 띄워준다.
+	      
+	     document.getElementById("mbut").onclick = function() {
+         location.href = 'buyPro.do?b_num=' + b_num;
+      }
+	   
+   }
+   </script>
+   <div class="modal fade" id="mainModal" role="dialog">
+   <div class="modal-dialog modal-lg"  style="max-width: 45%;">
+      <div class="modal-content mc1">
+         <div class="modal-body mb1">
+            <div class="row">
+               <div>
+                  <br>
+                  <h2 class="h2-responsive product-name">
+                     <b>[</b><strong id="cate"></strong><b>]</b> <strong id="title"></strong>
+                  </h2>
+                  <br> <br>
+                  <div id="profile-upload" class="cir"></div>
+                  <div id="profile-upload2" class="cir"></div>
+                  <div id="profile-upload3" class="cir"></div>
+
+                  <table id="detata">
+                     <tr>
+                        <td class="mota"><img src="../../../images/writer.png" id="mpicto">
+                           <h6>글쓴이</h6><br>
+                           <h3>
+                              <strong id="id"></strong>
+                           </h3></td>
+                        <td class="mota"><img src="../../../images/hour.png" id="mpicto">
+                           <h6>예상일수</h6><br>
+                           <h3>
+                              <strong id="day1"></strong>박 <strong id="day2"></strong>일
+                           </h3></td>
+
+                        <td class="mota"><img src="../../../images/won.png" id="mpicto">
+                           <h6>예상금액</h6><br>
+                           <h3>
+                              <strong id="ac"></strong>원
+                           </h3></td>
+                        <td class="mota"><img src="../../../images/world.png" id="mpicto">
+                           <h6>지역</h6><br>
+                           <h3>
+                              <strong id="loc"></strong>
+                           </h3></td>
+                     </tr>
+                  </table>
+                  <div class="text-center">
+                     <button id="mbut">
+                        -<strong id="price"></strong>p                      
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div> 
+	</div>
+	<script src="../../assets/js/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<%@ include file="../footer.jsp"%>

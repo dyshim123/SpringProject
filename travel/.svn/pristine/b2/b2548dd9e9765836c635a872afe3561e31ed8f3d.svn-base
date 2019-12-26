@@ -1,0 +1,57 @@
+package com.roadruwa.service.imp;
+
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+
+import com.roadruwa.dao.UserDao;
+import com.roadruwa.service.userService;
+import com.roadruwa.vo.UserVo;
+
+@Service("userService")
+public class UserServiceImp implements userService {
+private final Log logger = LogFactory.getLog(getClass());
+	
+     @Inject
+	 UserDao userDao;
+	
+	/*
+	 * @Override public UserVo getUserVoItem(String userid){ return
+	 * userDao.getUserVoItem(userid);
+	 * 
+	 * }
+	 * 
+	 * @Override public int updateUserVo(UserVo userVo) { return
+	 * userDao.updateUserVo(userVo); }
+	 */
+	
+	@Override
+	public boolean loginCheck(UserVo vo, HttpSession session) {
+		UserVo result = userDao.loginCheck(vo);
+		
+		if(result != null) {
+			
+			session.setAttribute("u_id", result.getuId());
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public UserVo viewMember(UserVo vo) {
+		return userDao.viewMember(vo);
+	}
+	
+	@Override
+	public void logout(HttpSession session) {
+		session.invalidate();
+	}
+
+}

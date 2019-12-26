@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roadruwa.dao.PointDao">
+<resultMap id="pointMap" type="PointVo">
+     <id column="p_num" property="pNum" jdbcType="DECIMAL" />
+     <result column="u_id" property="uId" jdbcType="VARCHAR" />
+     <result column="reg_date" property="pReg" jdbcType="TIMESTAMP" />
+      <result column="content" property="Content" jdbcType="VARCHAR" />
+      <result column="tpoint" property="tPoint" jdbcType="DECIMAL" />
+      <result column="rpoint" property="rPoint" jdbcType="DECIMAL" />
+</resultMap>
+
+  <sql id="PointVo_column">
+		a.p_num, a.u_id, a.reg_date, a.content, a.tpoint, a.rpoint
+	</sql>
+
+  <insert id="write" parameterType="PointVo">
+    insert into point(u_id, reg_date, content, tpoint, rpoint) values(#{uId}, current_timestamp, '가입포인트', 500, 500)
+  </insert>
+  
+  <select id="pointList" resultMap="pointMap">
+    select <include refid="PointVo_column" />
+       from point a where a.u_id = #{u_id}
+  </select>
+
+</mapper>

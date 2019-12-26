@@ -1,0 +1,55 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+ <jsp:include page="header.jsp" flush="false" />
+    <link rel="stylesheet" href="assets/css/main.css" /><html>
+      <style>
+    body{
+  text-align: center;
+}
+ table {
+  
+    margin-left: auto;
+    margin-right: auto;
+ border: 1px solid #DEE2E6;
+  }
+
+    </style>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<title>비밀번호 찾기</title>
+</head>
+
+<br><br><br><br><br><br>
+<form method = "post" action = "searchPw.jsp">
+<table class="table" style="width:30%;">
+<td colspan="2" style="padding-bottom:0px;"><h3><b>비밀번호 찾기</b></h3></td>
+<tr>
+	<td >
+		아이디
+	</td>
+	<td >
+		<input type = "text" name = "u_id" id="u_id" size = "18">
+    </td>
+</tr>
+<tr >
+	<td >
+		핸드폰 번호
+	</td>
+	<td>
+		<input type = "text" name = "u_phone"  id = "u_phone"> 
+		
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		
+		<input type = "submit" value = "찾기">
+		<input type = "button" value = "메인" onclick = 
+			"javascript:window.location = 'main.jsp'">
+	</td>
+</tr>
+</table>
+</form>
+
+</html>

@@ -1,0 +1,60 @@
+package com.roadruwa.web;
+
+import java.io.File;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.roadruwa.comm.UserException;
+import com.roadruwa.comm.web.FileUploader;
+import com.roadruwa.service.BoardService;
+import com.roadruwa.vo.BoardVo;
+import com.roadruwa.vo.FileMng;
+
+@Controller
+public class ContentController {
+
+	private final Log logger = LogFactory.getLog(getClass());
+
+	@Autowired
+	private BoardService boardService;
+
+	@RequestMapping("/writeForm.do")
+	public String writeForm() {
+		return "writeForm";
+	}
+
+	@RequestMapping(value = "/contentForm.do", method = RequestMethod.POST)
+	public String contentForm(BoardVo board, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response,
+			SessionStatus status) throws Exception {
+		System.out.println("board ==> " + board);
+
+		response.setContentType("text/plain");
+
+		if (!(request instanceof MultipartHttpServletRequest)) {
+			throw new UserException("dd");
+		}
+		
+		String uploadPath = "D:\\dev_room\\upload" + File.separatorChar + "dadang";
+		FileUploader fileUploader = new FileUploader();
+		List<FileMng> upFiles = fileUploader.uploadFile(request, response, uploadPath);
+		System.out.println("uploadfile::" + upFiles);
+
+		String u_id = "dd";//(String) session.getAttribute("u_id");
+		board.setuId(u_id);
+		boardService.boardinsert(board);
+
+		return "myPage/myPage";
+	}
+}

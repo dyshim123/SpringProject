@@ -1,0 +1,40 @@
+package com.roadruwa.dao;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.roadruwa.vo.BoardDayVo;
+import com.roadruwa.vo.BoardVo;
+import com.roadruwa.vo.CommentVo;
+
+public interface BoardDao {
+	public List<BoardVo> getBoardList(@Param("lotation")String lotation, @Param("day")Integer day,
+			@Param("cost")Integer cost, @Param("trans")String trans, @Param("tema")String tema,
+			@Param("search")String search);
+	
+	public List<BoardVo> getBoardpopList(@Param("lotation")String lotation, @Param("day")Integer day,
+			@Param("cost")Integer cost, @Param("trans")String trans, @Param("tema")String tema,
+			@Param("search")String search);
+	
+	public List<BoardVo> myWrite(@Param("u_id")String u_id);
+	
+	public int boardinsert(BoardVo board);
+	
+    public void boardDayinsert(BoardDayVo dayvo);
+    
+    public BoardVo contentview(@Param("b_num")String b_num);
+    
+    public List<BoardDayVo> contentdayview(@Param("b_num")String b_num);
+    
+    public void commnetWrite(CommentVo vo);
+    
+    public List<CommentVo> commentview(@Param("b_num")String b_num);
+    
+    public void cdelete(@Param("c_num")int c_num);
+    
+    public String commentCount(@Param("b_num")String b_num);
+    
+    public void cupdate(CommentVo vo);
+}

@@ -1,0 +1,95 @@
+package com.roadruwa.web;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.roadruwa.service.userService;
+import com.roadruwa.vo.UserVo;
+
+@Controller
+public class userController {
+	private final Log logger = LogFactory.getLog(getClass());
+
+	@Inject
+	private userService userService;
+
+	@RequestMapping(value = "/loginCheck.do")
+	public String loginCheck(@ModelAttribute UserVo vo, Model model, HttpSession session) {
+		int result = userService.isValidUser(vo.getuId(), vo.getuPwd());
+
+		switch (result) {
+		case 0:
+			// 로그인 성공
+			// model.addAttribute("msg", "성공적으로 로그인 되었습니다.");
+			session.setAttribute("u_id", vo.getuId());
+			break;
+		case 1:
+			// ID존재 하지 않음.
+		case 2:
+			// 비밀번호가 일치하지 않음.
+			// model.addAttribute("msg", "id 또는 password가 일치 하지 않습니다.");
+			break;
+		default:
+			// 알수 없는 로직 처리 오류
+		}
+		model.addAttribute("code", result);
+		return "redirect:/indexPage.do";
+	}
+
+	@RequestMapping(value = "/logout.do")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/indexPage.do";
+	}
+
+	@RequestMapping(value = "/insertUserVo.do", method = RequestMethod.POST)
+	public String insertUserVo(UserVo vo) {
+		userService.write(vo);
+		return "index";
+	}
+
+	@RequestMapping(value = "/searchIdForm.do")
+	public String searchIdForm() {
+		return "searchIdForm";
+	}
+
+	@RequestMapping(value = "/searchId.do")
+	public String searchId(@ModelAttribute UserVo vo, Model model) {
+		UserVo result = userService.isIdCheck(vo.getuName(), vo.getuEmail());
+		if (result == null) {
+			model.addAttribute("no_id", "존재하지 않은 회원입니다.");
+		} else {
+			model.addAttribute("u_id", result.getuId());
+		}
+
+		System.out.println(result);
+		return "searchIdForm";
+	}
+
+	
+	@RequestMapping(value = "/idcheck.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int idcheck(@RequestParam("uId") String uId) {
+		UserVo check = userService.idcheck(uId);
+		int result = 0;
+		if(check != null) {
+			result = 1;
+		}else {
+			result = 0;
+		}
+		return result;
+	}
+
+}

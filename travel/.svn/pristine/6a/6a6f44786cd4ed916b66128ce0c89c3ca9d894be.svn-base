@@ -1,0 +1,68 @@
+package com.roadruwa.web;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.roadruwa.service.ManagerService;
+import com.roadruwa.vo.ManagerVo;
+import com.roadruwa.vo.UserVo;
+
+@Controller
+public class ManagerMain {
+	private final Log logger = LogFactory.getLog(getClass());
+	
+	@Autowired
+	private ManagerService managerService;
+	
+	@RequestMapping(value = "/managerlogin/loginForm.do", method = RequestMethod.GET)
+	public String loginForm() {
+		
+		return "manager/managerLoginForm";
+	}
+	
+	@RequestMapping(value = "/managerlogin/main.do", method = RequestMethod.GET)
+	public String main(@RequestParam String name, Model model) {
+		model.addAttribute("code", name);
+		return "manager/main";
+	}
+	
+	@RequestMapping(value = "/managerlogin/login.do", method = RequestMethod.POST)
+	public String loginCheck(@ModelAttribute ManagerVo vo, Model model, HttpSession session) {
+		int result = managerService.isValidManager(vo.getManagerId(), vo.getManagerPw());
+
+		switch (result) {
+		case 0:
+			// 로그인 성공
+			session.setAttribute("managerid", vo.getManagerId());
+			break;
+		case 1:
+			model.addAttribute("msg", "id가 존재하지 않습니다.");
+			break;
+			// ID존재 하지 않음.
+		case 2:
+			// 비밀번호가 일치하지 않음.
+			model.addAttribute("msg", "id 또는 password가 일치 하지 않습니다.");
+			break;
+		default:
+			// 알수 없는 로직 처리 오류
+		}
+		model.addAttribute("code", vo.getManagerId());
+		return "manager/main";
+	}
+
+	/*
+	 * @RequestMapping(value = "/logout.do") public String logout(HttpSession
+	 * session) { session.invalidate(); return "redirect:/indexPage.do"; }
+	 */
+
+}

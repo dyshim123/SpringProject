@@ -1,0 +1,36 @@
+package com.roadruwa.service.imp;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+
+import com.roadruwa.dao.BoardDao;
+import com.roadruwa.service.BoardService;
+import com.roadruwa.vo.BoardVo;
+
+@Service("boardService")
+public class BoardServiceImp implements BoardService {
+	private final Log logger = LogFactory.getLog(getClass());
+	
+	@Resource(name="boardDao")
+	private BoardDao boardDao;
+
+	@Override
+	public List<BoardVo> getBoardList(String lotation, Integer day,
+			Integer cost, String trans, String tema,
+			String search) {
+		return boardDao.getBoardList(lotation, day, cost, trans, tema, search);
+	}
+	
+	@Override
+	public List<BoardVo> getBoardpopList(String lotation, Integer day,
+			Integer cost, String trans, String tema,
+			String search) {
+		return boardDao.getBoardpopList(lotation, day, cost, trans, tema, search);
+	}
+
+}

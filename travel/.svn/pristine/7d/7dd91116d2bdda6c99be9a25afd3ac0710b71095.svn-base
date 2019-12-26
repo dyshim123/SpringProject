@@ -1,0 +1,54 @@
+package com.roadruwa.service.imp;
+
+import javax.inject.Inject;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+
+import com.roadruwa.dao.UserDao;
+import com.roadruwa.service.userService;
+import com.roadruwa.vo.UserVo;
+
+@Service("userService")
+public class UserServiceImp implements userService {
+	private final Log logger = LogFactory.getLog(getClass());
+
+	@Inject
+	UserDao userDao;
+
+	@Override
+	public int isValidUser(String userid, String pswd) {
+		UserVo user = userDao.getUserVoItem(userid);
+		int rtnStat = -1;
+
+		if (user == null) {
+			// ID존재 하지 않음.(그런 유저는 없어요.)
+			rtnStat = 1;
+		} else {
+			if (pswd.equals(user.getuPwd())) {
+				// 맞아요. 패스워드도 일치 하는군요.
+				rtnStat = 0;
+			} else {
+				rtnStat = 2;
+			}
+		}
+		return rtnStat;
+	}
+
+	@Override
+	public UserVo getUser(String userid) {
+		return userDao.getUserVoItem(userid);
+	}
+	
+	@Override
+	public void write(UserVo vo) {
+		userDao.write(vo);
+	}
+	
+	@Override
+	public UserVo isIdCheck(String uName, String uEmail) {
+		UserVo result = userDao.getUserCheck(uName, uEmail);
+        return result;
+	}
+}

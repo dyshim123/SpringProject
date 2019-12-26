@@ -1,0 +1,143 @@
+package com.roadruwa.comm.web;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.roadruwa.vo.FileMng;
+
+public class FileUploader {
+	private final Log logger = LogFactory.getLog(getClass());
+
+	public FileUploader() {
+		super();
+	}
+
+	public List<FileMng> uploadFile(Map<String, MultipartFile> files, String uploadPath)
+			throws Exception {
+		File saveFolder = new File(uploadPath);
+		List<FileMng> fileInfoList = new ArrayList<FileMng>();
+		
+		boolean isDir = false;
+
+		if (!saveFolder.exists() || saveFolder.isFile()) {
+			if( saveFolder.isFile() ) return null;
+			saveFolder.mkdirs();
+		}
+		
+		if (!isDir) {
+			Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+			MultipartFile file;
+			String filePath;
+			
+			while (itr.hasNext()) {
+				Entry<String, MultipartFile> entry = itr.next();
+				logger.debug("[" + entry.getKey() + "]");
+
+				file = entry.getValue();
+				if (!"".equals(file.getOriginalFilename())) {
+					/*
+					SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+					Date now = new Date();
+					String curDate = date.format(now);
+					*/
+					String save_file_nm = UUID.randomUUID().toString().replace("-", "");
+
+					int i = -1;
+					String fileExt;
+					i = file.getOriginalFilename().lastIndexOf(".");
+					if( i != -1)
+						fileExt = file.getOriginalFilename().substring(i, file.getOriginalFilename().length());
+					else 
+						fileExt = "";
+					
+					String realFileName = save_file_nm + fileExt;
+					
+					filePath = uploadPath + File.separatorChar + realFileName;
+					file.transferTo(new File(filePath));
+					
+					FileMng fileMng = new FileMng();
+					fileMng.setFileNm(file.getOriginalFilename());
+					fileMng.setExtType(fileExt);
+					fileMng.setFileSize(file.getSize());
+					fileMng.setSavedNm(realFileName);
+					fileMng.setSavedPath(uploadPath);
+					
+					fileInfoList.add(fileMng);
+				}
+			}
+		}
+		
+		return fileInfoList;
+	}
+	
+	public List<FileMng> uploadFile(HttpServletRequest req,  HttpServletResponse res, String uploadPath)
+			throws Exception {
+		File saveFolder = new File(uploadPath);
+		List<FileMng> fileInfoList = new ArrayList<FileMng>();
+		
+		//멀티파트 유형이 아니면 오류 발생.
+		if (!(req instanceof MultipartHttpServletRequest)) {
+			res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Expected multipart request");
+			return null;
+		}
+		
+		final MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) req;
+		final Map<String, MultipartFile> files = multiRequest.getFileMap();
+		
+		if (!saveFolder.exists() || saveFolder.isFile()) {
+			if( saveFolder.isFile() ) return null;
+			saveFolder.mkdirs();
+		}
+		
+		Iterator<Entry<String, MultipartFile>> itr = files.entrySet().iterator();
+		MultipartFile file;
+		String filePath;
+		
+		while (itr.hasNext()) {
+			Entry<String, MultipartFile> entry = itr.next();
+			logger.debug("[" + entry.getKey() + "]");
+
+			file = entry.getValue();
+			if (file.getOriginalFilename() !=null && !"".equals(file.getOriginalFilename())) {
+				String save_file_nm = UUID.randomUUID().toString().replace("-", "");
+
+				int i = -1;
+				String fileExt;
+				i = file.getOriginalFilename().lastIndexOf(".");
+				if( i != -1)
+					fileExt = file.getOriginalFilename().substring(i, file.getOriginalFilename().length());
+				else 
+					fileExt = "";
+				
+				String realFileName = save_file_nm + fileExt;
+				
+				filePath = uploadPath + File.separatorChar + realFileName;
+				file.transferTo(new File(filePath));
+				
+				FileMng fileMng = new FileMng();
+				fileMng.setFileNm(file.getOriginalFilename());
+				fileMng.setExtType(fileExt);
+				fileMng.setFileSize(file.getSize());
+				fileMng.setSavedNm(realFileName);
+				fileMng.setSavedPath(uploadPath);
+				
+				fileInfoList.add(fileMng);
+			}
+		}
+		
+		return fileInfoList;
+	}
+}

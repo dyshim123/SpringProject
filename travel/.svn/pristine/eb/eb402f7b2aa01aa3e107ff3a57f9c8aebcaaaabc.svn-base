@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roadruwa.dao.BoardDao">
+	<resultMap id="boardMap" type="BoardVo">
+		<id column="b_num" property="bNum" jdbcType="DECIMAL" />
+		<result column="b_title" property="bTitle" jdbcType="VARCHAR" />
+		<result column="b_pic1" property="bPic1" jdbcType="VARCHAR" />
+		<result column="b_pic2" property="bPic2" jdbcType="VARCHAR" />
+		<result column="b_pic3" property="bPic3" jdbcType="VARCHAR" />
+		<result column="b_cate" property="bCate" jdbcType="VARCHAR" />
+		<result column="b_lo" property="bLo" jdbcType="VARCHAR" />
+		<result column="b_tr" property="bTr" jdbcType="VARCHAR" />
+		<result column="b_day1" property="bDay1" jdbcType="DECIMAL" />
+		<result column="b_day2" property="bDay2" jdbcType="DECIMAL" />
+		<result column="b_one" property="bOne" jdbcType="VARCHAR" />
+		<result column="b_ac" property="bAc" jdbcType="DECIMAL" />
+		<result column="u_id" property="uId" jdbcType="VARCHAR" />
+		<result column="b_price" property="bPrice" jdbcType="DECIMAL" />
+		<result column="appr" property="appr" jdbcType="VARCHAR" />
+		<result column="b_create_dt" property="bCreateDt" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<resultMap id="boardDayMap" type="BoardDayVo">
+	<id column="b_num" property="bNum" jdbcType="DECIMAL" />
+	<result column="b_day" property="bDay" jdbcType="VARCHAR" />
+	<result column="b_trav" property="bTrav" jdbcType="VARCHAR" />
+	<result column="b_food" property="bFood" jdbcType="VARCHAR" />
+	<result column="b_trans" property="bTrans" jdbcType="VARCHAR" />
+	<result column="b_stay" property="bStay" jdbcType="VARCHAR" />
+	<result column="b_cont" property="bCont" jdbcType="VARCHAR" />
+	<result column="b_post" property="bPost" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="boardcomMap" type="CommentVo">
+	  <id column="c_num" property="cNum" jdbcType="DECIMAL" />
+	  <result column="c_content" property="cContent" jdbcType="VARCHAR" />
+	  <result column="c_reg" property="cReg" jdbcType="TIMESTAMP" />
+	  <result column="b_num" property="bNum" jdbcType="DECIMAL" />
+	  <result column="c_id" property="cId" jdbcType="VARCHAR" />
+	  <result column="star" property="Star" jdbcType="VARCHAR" />
+	  <result column="c_pic" property="cPic" jdbcType="VARCHAR" />
+	  <collection property="boardMap" resultMap="boardMap" />
+	</resultMap>
+
+	<sql id="UserVo_column">
+		a.b_num, a.b_title, a.b_pic1, a.b_pic2, a.b_pic3, a.b_cate, a.b_lo, a.b_tr, 
+		a.b_day1, a.b_day2, a.b_one, a.b_ac, a.u_id, a.b_price, a.b_create_dt, a.appr
+	</sql>
+	
+	<!-- <insert id="boardinsert"  parameterType="BoardVo">
+	  insert into board(b_title, b_pic1, b_pic2, b_pic3, b_cate, b_lo, b_tr, b_day1, b_day2, b_one, b_ac, u_id, b_price, b_create_dt, appr)
+	   values(#{bTitle}, #{bPic1}, #{bPic2}, #{bPic3}, #{bCate}, #{bLo}, #{bTr}, #{bDay1}, #{bDay2}, #{bOne}, 0, #{uId}, 0, current_timestamp, '미승인')
+	</insert> -->
+	
+	<insert id="boardDayinsert" parameterType="BoardDayVo">
+	insert into board_day(b_num,b_day,b_trav,b_food,b_trans,b_stay,b_cont,b_post) values(#{bNum},#{bDay},#{bTrav},#{bFood},#{bTrans},#{bStay},null,#{bPost})
+	</insert> 
+	
+		<insert id="boardinsert"  parameterType="BoardVo" useGeneratedKeys="true" keyProperty="bNum">
+	  insert into board(b_title, b_pic1, b_pic2, b_pic3, b_cate, b_lo, b_tr, b_day1, b_day2, b_one, b_ac, u_id, b_price, b_create_dt, appr)
+	   values(#{bTitle}, #{bPic1}, #{bPic2}, #{bPic3}, #{bCate}, #{bLo}, #{bTr}, #{bDay1}, #{bDay2}, #{bOne}, 0, #{uId}, 0, current_timestamp, '미승인')
+	</insert>
+	
+	<select id="getBoardList" resultMap="boardMap" parameterType="map">
+		select
+			<include refid="UserVo_column" />
+		from board a
+		<where>
+			<if test="lotation != null and lotation != ''">
+				AND A.b_lo =  #{lotation}
+			</if>
+			<if test="day != null">
+				<choose>
+					<when test="day eq 1"><![CDATA[
+						AND a.b_day2 <= 1
+					]]></when>
+					<when test='day gte 1 and day lt 5'>
+						AND a.b_day2 = #{day}
+					</when>
+					<when test="day gte 5">
+						AND a.b_day2 >= 5
+					</when>
+				</choose>
+			</if>
+			
+			<if test="cost != null">
+				<choose>
+					<when test="day lt 100000"><![CDATA[
+						AND a.b_ac < 100000
+					]]></when>
+					<when test='day gte 100000 and day lt 200000'><![CDATA[
+						AND a.b_ac >=100000 and a.b_ac < 200000
+					]]></when>
+					<when test="day gt 200000">
+						AND a.b_ac >= 200000
+					</when>
+				</choose>
+			</if>
+			
+			<if test="trans != null and trans != ''">
+				AND A.b_tr =  #{trans}
+			</if>
+			
+			<if test="tema != null and tema != ''">
+				AND A.b_cate =  #{tema}
+			</if>
+			
+			<if test="search != null and search != ''">
+				AND a.b_title like '%' || #{search} || '%'
+			</if>
+		</where>
+		order by a.b_create_dt desc
+	</select>
+	
+	<sql id="comment">
+		c.c_num, c.c_content, c.c_reg, c.b_num, c.c_id, c.star, c.c_pic
+	</sql>
+	
+	<select id="getBoardpopList" resultMap="boardcomMap" parameterType="map">
+		select
+			<include refid="UserVo_column" />, <include refid="comment" />
+		from board a, comment c
+		<where>
+		a.b_num = c.b_num 
+			<if test="lotation != null and lotation != ''">
+				AND A.b_lo =  #{lotation}
+			</if>
+			<if test="day != null">
+				<choose>
+					<when test="day eq 1"><![CDATA[
+						AND a.b_day2 <= 1
+					]]></when>
+					<when test='day gte 1 and day lt 5'>
+						AND a.b_day2 = #{day}
+					</when>
+					<when test="day gte 5">
+						AND a.b_day2 >= 5
+					</when>
+				</choose>
+			</if>
+			
+			<if test="cost != null">
+				<choose>
+					<when test="day lt 100000"><![CDATA[
+						AND a.b_ac < 100000
+					]]></when>
+					<when test='day gte 100000 and day lt 200000'><![CDATA[
+						AND a.b_ac >=100000 and a.b_ac < 200000
+					]]></when>
+					<when test="day gt 200000">
+						AND a.b_ac >= 200000
+					</when>
+				</choose>
+			</if>
+			
+			<if test="trans != null and trans != ''">
+				AND A.b_tr =  #{trans}
+			</if>
+			
+			<if test="tema != null and tema != ''">
+				AND A.b_cate =  #{tema}
+			</if>
+			
+			<if test="search != null and search != ''">
+				AND a.b_title like '%' || #{search} || '%'
+			</if>
+		</where>
+		group by c.b_num order by avg(c.star) desc
+	</select>
+
+</mapper>

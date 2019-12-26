@@ -1,0 +1,118 @@
+package com.roadruwa.web;
+
+import java.util.HashMap;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.roadruwa.service.BoardService;
+import com.roadruwa.service.PointService;
+import com.roadruwa.service.userService;
+import com.roadruwa.vo.BoardVo;
+import com.roadruwa.vo.BuyVo;
+import com.roadruwa.vo.PointVo;
+import com.roadruwa.vo.UserVo;
+
+@Controller
+public class mypageController {
+	private final Log logger = LogFactory.getLog(getClass());
+	
+	@Inject
+	private userService userService;
+	
+	@Inject
+	private PointService pointSerivce;
+	
+	@Inject
+	private BoardService boardService;
+
+	@RequestMapping("/myPage.do")
+	public String myPage(Model model, HttpSession session) {
+		String u_id = (String)session.getAttribute("u_id");
+		List<BoardVo> myWrite = boardService.myWrite(u_id);
+		System.out.println(model.addAttribute("myWrite", myWrite));
+		return "myPage/myPage";
+	}
+
+	@RequestMapping("/myBuy.do")
+	public String myBuy() {
+		/*
+		 * String u_id = (String)session.getAttribute("u_id"); List<BuyVo> list =
+		 * pointSerivce.pointList(u_id); model.addAttribute("Plist", list); return
+		 * "myPage/myBuy";
+		 */
+		return "myPage/myBuy";
+	}
+
+	@RequestMapping(value="/myPoint.do", method=RequestMethod.GET)
+	public String myPoint(Model model, HttpSession session) {
+		String u_id = (String)session.getAttribute("u_id");
+		List<PointVo> list = pointSerivce.pointList(u_id);
+		List<UserVo> lists = userService.memberList(u_id);
+		model.addAttribute("Plist", list);
+		model.addAttribute("userList", lists);
+		return "myPage/myPoint";
+	}
+
+	@RequestMapping("/myMessage.do")
+	public String myMessage() {
+		return "myPage/myMessage";
+	}
+
+	@RequestMapping(value="/mySetting.do", method=RequestMethod.GET)
+	public String mySetting(Model model, HttpSession session) {
+		String u_id = (String)session.getAttribute("u_id");
+		List<UserVo> list = userService.memberList(u_id);
+		model.addAttribute("list", list);
+		return "myPage/mySetting";
+	}
+
+
+	@RequestMapping("/writetest.do")
+	public String writetest() {
+		return "writetest";
+	}
+
+	@RequestMapping("/test.do")
+	public String test() {
+		return "test";
+	}
+	
+	@RequestMapping("/chargePro.do")
+	public String chargePro(@RequestParam("charge") int charge) {
+		System.out.println(charge);
+		return "myPage/buy";
+	}
+	
+	@RequestMapping(value = "/account.do")
+	@ResponseBody
+	public String account(@RequestParam("imp_uid") String imp_uid,@RequestParam("tpoint") int tpoint, HttpSession session, PointVo vo ) {
+		String u_id = (String)session.getAttribute("u_id");
+		String result = pointSerivce.nowpoint(u_id);
+		int rpoint =  Integer.parseInt(result);
+		System.out.println("result" +result);
+		/* int nowpoint = pointSerivce.ptWrite(vo); */
+		vo.setrPoint(rpoint + tpoint);
+		vo.setuId(u_id);
+		vo.settPoint(tpoint);
+		pointSerivce.ptWrite(vo);
+		
+	return imp_uid;
+	}
+
+}

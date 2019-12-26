@@ -1,0 +1,25 @@
+package com.roadruwa.dao;
+
+import java.util.HashMap;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.roadruwa.vo.UserVo;
+
+
+public interface UserDao {
+	/*
+	 * public UserVo getUserVoItem(@Param("userid")String userid); public int
+	 * updateUserVo(UserVo userVo);
+	 */
+
+	public UserVo loginCheck(UserVo vo);
+	
+	public UserVo viewMember(UserVo vo);
+	
+	public void logout(HttpSession session);
+	
+}

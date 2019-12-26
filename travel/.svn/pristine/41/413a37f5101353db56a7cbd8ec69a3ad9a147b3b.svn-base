@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roadruwa.dao.BoardDao">
+	<resultMap id="boardMap" type="BoardVo">
+		<id column="b_num" property="bNum" jdbcType="DECIMAL" />
+		<result column="b_title" property="bTitle" jdbcType="VARCHAR" />
+		<result column="b_pic1" property="bPic1" jdbcType="VARCHAR" />
+		<result column="b_pic2" property="bPic2" jdbcType="VARCHAR" />
+		<result column="b_pic3" property="bPic3" jdbcType="VARCHAR" />
+		<result column="b_cate" property="bCate" jdbcType="VARCHAR" />
+		<result column="b_lo" property="bLo" jdbcType="VARCHAR" />
+		<result column="b_tr" property="bTr" jdbcType="VARCHAR" />
+		<result column="b_day1" property="bDay1" jdbcType="DECIMAL" />
+		<result column="b_day2" property="bDay2" jdbcType="DECIMAL" />
+		<result column="b_one" property="bOne" jdbcType="VARCHAR" />
+		<result column="b_ac" property="bAc" jdbcType="DECIMAL" />
+		<result column="u_id" property="uId" jdbcType="VARCHAR" />
+		<result column="b_price" property="bPrice" jdbcType="DECIMAL" />
+		<result column="appr" property="appr" jdbcType="VARCHAR" />
+		<result column="b_create_dt" property="bCreateDt" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<resultMap id="boardDayMap" type="BoardDayVo">
+	<id column="b_num" property="bNum" jdbcType="DECIMAL" />
+	<result column="b_day" property="bDay" jdbcType="VARCHAR" />
+	<result column="b_trav" property="bTrav" jdbcType="VARCHAR" />
+	<result column="b_food" property="bFood" jdbcType="VARCHAR" />
+	<result column="b_trans" property="bTrans" jdbcType="VARCHAR" />
+	<result column="b_stay" property="bStay" jdbcType="VARCHAR" />
+	<result column="b_cont" property="bCont" jdbcType="VARCHAR" />
+	<result column="b_post" property="bPost" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="boardcomMap" type="CommentVo">
+	  <id column="c_num" property="cNum" jdbcType="DECIMAL" />
+	  <result column="c_content" property="cContent" jdbcType="VARCHAR" />
+	  <result column="c_reg" property="cReg" jdbcType="TIMESTAMP" />
+	  <result column="b_num" property="bNum" jdbcType="DECIMAL" />
+	  <result column="c_id" property="cId" jdbcType="VARCHAR" />
+	  <result column="star" property="Star" jdbcType="VARCHAR" />
+	  <result column="c_pic" property="cPic" jdbcType="VARCHAR" />
+	  <collection property="boardMap" resultMap="boardMap" />
+	</resultMap>
+	
+	<resultMap id="messageMap" type="MessageVo">
+	 <id column="m_num" property="mNum" jdbcType="DECIMAL" />
+	  <result column="m_sid" property="mSid" jdbcType="VARCHAR" />
+	  <result column="m_content" property="mContent" jdbcType="VARCHAR" />
+	  <result column="m_date" property="mDate" jdbcType="TIMESTAMP" />
+	  <result column="b_num" property="bNum" jdbcType="DECIMAL" />
+	   <result column="u_id" property="uId" jdbcType="VARCHAR" />
+	   <result column="s_id" property="sId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="buyMap" type="BuyVo">
+	 <id column="buy_num" property="buyNum" jdbcType="DECIMAL" />
+	 <result column="buyer" property="Buyer" jdbcType="VARCHAR" />
+	 <result column="buy_price" property="buyPrice" jdbcType="DECIMAL" />
+	 <result column="buy_count" property="buyCount" jdbcType="DECIMAL" />
+	 <result column="buy_date" property="buyDate" jdbcType="TIMESTAMP" />
+	<result column="b_num" property="bNum" jdbcType="DECIMAL" />
+	 </resultMap>
+
+	<sql id="UserVo_column">
+		a.b_num, a.b_title, a.b_pic1, a.b_pic2, a.b_pic3, a.b_cate, a.b_lo, a.b_tr, 
+		a.b_day1, a.b_day2, a.b_one, a.b_ac, a.u_id, a.b_price, a.b_create_dt, a.appr
+	</sql>
+	
+	<!-- <insert id="boardinsert"  parameterType="BoardVo">
+	  insert into board(b_title, b_pic1, b_pic2, b_pic3, b_cate, b_lo, b_tr, b_day1, b_day2, b_one, b_ac, u_id, b_price, b_create_dt, appr)
+	   values(#{bTitle}, #{bPic1}, #{bPic2}, #{bPic3}, #{bCate}, #{bLo}, #{bTr}, #{bDay1}, #{bDay2}, #{bOne}, 0, #{uId}, 0, current_timestamp, '미승인')
+	</insert> -->
+	
+	<insert id="userBuy" parameterType="BuyVo">
+	 insert into buy(buyer, buy_price, buy_count, buy_date, b_num) values(#{Buyer}, #{buyPrice}, #{buyCount} , current_timestamp, #{bNum})
+	</insert>
+	
+	<insert id="messageWrite" parameterType="MessageVo">
+	insert into message(m_sid, m_content, m_date, b_num, u_id, s_id) values(#{mSid}, #{mContent}, current_timestamp, #{bNum}, #{uId}, #{sId})
+	</insert>
+	
+	<insert id="replyMessage" parameterType="MessageVo">
+	insert into message(m_sid, m_content, m_date, b_num, u_id, s_id) values(#{mSid}, #{mContent}, current_timestamp, #{bNum}, #{uId}, #{sId})
+	</insert>
+	
+	<select id="msgList" resultMap="messageMap" parameterType="map">
+	select * from message where u_id = #{u_id}
+	</select>
+	
+	<select id="msgLists" resultMap="messageMap" parameterType="map">
+	select * from message where s_id = #{u_id}
+	</select>
+	
+	<select id="buyList" resultMap="boardMap" parameterType="map">
+	select a.* from board a, buy b where a.b_num = b.b_num and b.buyer = #{u_id}
+	</select>
+	
+	<select id="sendMessage" resultMap="messageMap" parameterType="int">
+	select * from message where m_num = #{mNum}  
+	</select>
+	
+	<select id="userBuyList" resultMap="buyMap" parameterType="String">
+	select * from buy where buyer = #{u_id}
+	</select>
+	
+	<delete id="delForm" parameterType="BoardVo">
+	delete from board where b_num = #{b_num}
+	</delete>
+	
+	<delete id="delmessage" parameterType="MessageVo">
+	delete from message where m_num = #{mNum}
+	</delete>
+	
+	<insert id="managerMsg" parameterType="MessageVo">
+	insert into message(m_sid, m_content, m_date, b_num, u_id, s_id) values(#{mSid}, #{mContent}, current_timestamp, #{bNum}, #{uId}, '관리자')
+	</insert>
+	
+	<insert id="commnetWrite" parameterType="CommentVo">
+	insert into comment(c_num, c_content, c_reg, b_num, c_id, star, c_pic) values(#{cNum},#{cContent},current_timestamp,#{bNum},#{cId},#{Star},#{cPic})
+	</insert>
+	
+	<update id="cupdate" parameterType="CommentVo">
+	update comment set c_content= #{cContent}, c_reg = current_timestamp, b_num= #{bNum}, c_id = #{cId}, star = #{Star}, c_pic = #{cPic} where c_num = #{cNum}
+	</update>
+	
+	<update id="acUpdate" parameterType="BoardVo">
+	update board set b_ac = #{bAc} where b_num = #{bNum}
+	</update>
+	
+	<update id="upPrice" parameterType="BoardVo">
+	update board set b_price = #{bPrice} where b_num = #{bNum}
+	</update>
+	
+	<select id="commentview" resultMap="boardcomMap" parameterType="map">
+	  select * from comment where b_num = #{b_num}
+	</select>
+	
+	<select id="commentCount" resultType="String" parameterType="String">
+	select sum(star) from comment where b_num = #{b_num}
+	</select>
+	
+	<delete id="cdelete" parameterType="int">
+	delete from comment where c_num = #{c_num}
+	</delete>
+
+	<insert id="boardDayinsert" parameterType="BoardDayVo">
+	insert into board_day(b_num,b_day,b_trav,b_food,b_trans,b_stay,b_cont,b_post) values(#{bNum},#{bDay},#{bTrav},#{bFood},#{bTrans},#{bStay},#{bCont},#{bPost})
+	</insert> 
+	
+		<insert id="boardinsert"  parameterType="BoardVo" useGeneratedKeys="true" keyProperty="bNum">
+	  insert into board(b_title, b_pic1, b_pic2, b_pic3, b_cate, b_lo, b_tr, b_day1, b_day2, b_one, b_ac, u_id, b_price, b_create_dt, appr)
+	   values(#{bTitle}, #{bPic1}, #{bPic2}, #{bPic3}, #{bCate}, #{bLo}, #{bTr}, #{bDay1}, #{bDay2}, #{bOne}, 0, #{uId}, 0, current_timestamp, '미승인')
+	</insert>
+	
+	<select id="myWrite" resultMap="boardMap"  parameterType="map">
+	select * from board a where u_id = #{u_id}   
+	</select>
+	
+	<select id="contentview" resultMap="boardMap"  parameterType="map">
+	select a.* from board a where a.b_num = #{b_num}    
+	</select>
+	
+	<select id="contentdayview" resultMap="boardDayMap"  parameterType="map">
+	  select * from board_day where b_num = #{b_num}
+	</select>
+	
+	<select id="getBoardList" resultMap="boardMap" parameterType="map">
+		select
+			<include refid="UserVo_column" />
+		from board a
+		<where>
+			<if test="lotation != null and lotation != ''">
+				AND A.b_lo =  #{lotation}
+			</if>
+			<if test="day != null">
+				<choose>
+					<when test="day eq 1"><![CDATA[
+						AND a.b_day2 <= 1
+					]]></when>
+					<when test='day gte 1 and day lt 5'>
+						AND a.b_day2 = #{day}
+					</when>
+					<when test="day gte 5">
+						AND a.b_day2 >= 5
+					</when>
+				</choose>
+			</if>
+			
+			<if test="cost != null">
+				<choose>
+					<when test="cost lt 100000"><![CDATA[
+						AND a.b_ac < 100000
+					]]></when>
+					<when test='cost gte 100000 and cost lt 200000'><![CDATA[
+						AND a.b_ac >=100000 and a.b_ac < 200000
+					]]></when>
+					<when test="cost gte 200000">
+						AND a.b_ac >= 200000
+					</when>
+				</choose>
+			</if>
+			
+			<if test="trans != null and trans != ''">
+				AND A.b_tr =  #{trans}
+			</if>
+			
+			<if test="tema != null and tema != ''">
+				AND A.b_cate =  #{tema}
+			</if>
+			
+			<if test="search != null and search != ''">
+				AND a.b_title like CONCAT('%',#{search},'%')
+			</if>
+			AND appr = '승인'
+		</where> 
+		order by a.b_create_dt desc
+	</select>
+	
+	<sql id="comment">
+		c.c_num, c.c_content, c.c_reg, c.b_num, c.c_id, c.star, c.c_pic
+	</sql>
+	
+	<select id="getBoardpopList" resultMap="boardcomMap" parameterType="map">
+		select
+			<include refid="UserVo_column" />, <include refid="comment" />
+		from board a, comment c
+		<where>
+		a.b_num = c.b_num 
+			<if test="lotation != null and lotation != ''">
+				AND A.b_lo =  #{lotation}
+			</if>
+			<if test="day != null">
+				<choose>
+					<when test="day eq 1"><![CDATA[
+						AND a.b_day2 <= 1
+					]]></when>
+					<when test='day gte 1 and day lt 5'>
+						AND a.b_day2 = #{day}
+					</when>
+					<when test="day gte 5">
+						AND a.b_day2 >= 5
+					</when>
+				</choose>
+			</if>
+			
+			<if test="cost != null">
+				<choose>
+					<when test="day lt 100000"><![CDATA[
+						AND a.b_ac < 100000
+					]]></when>
+					<when test='day gte 100000 and day lt 200000'><![CDATA[
+						AND a.b_ac >=100000 and a.b_ac < 200000
+					]]></when>
+					<when test="day gt 200000">
+						AND a.b_ac >= 200000
+					</when>
+				</choose>
+			</if>
+			
+			<if test="trans != null and trans != ''">
+				AND A.b_tr =  #{trans}
+			</if>
+			
+			<if test="tema != null and tema != ''">
+				AND A.b_cate =  #{tema}
+			</if>
+
+			<if test="search != null and search != ''">
+				AND a.b_title like '%' || #{search} || '%'
+			</if>
+		</where>
+		group by c.b_num order by sum(c.star) desc
+	</select>
+
+</mapper>

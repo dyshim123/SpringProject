@@ -1,0 +1,8 @@
+package com.roadruwa.service;
+
+import com.roadruwa.vo.UserVo;
+
+public interface userService {
+	public int isValidUser(String userid, String pswd);
+	public UserVo getUser(String userid);
+}

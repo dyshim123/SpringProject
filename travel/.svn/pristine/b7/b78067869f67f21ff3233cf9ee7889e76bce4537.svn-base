@@ -1,0 +1,68 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+td {
+	text-align: center;
+}
+</style>
+</head>
+	<%@ include file="myPageHeader.jsp"%>
+	<br>
+	<h4>
+		<b>내정보</b>
+	</h4>
+	<br>
+	<table class="table table-bordered tb"
+		style="width: 60%; margin: auto;">
+		<thead>
+		</thead>
+		<colgroup>
+			<col width="25%">
+			<col width="75%">
+		</colgroup>
+		<tbody>
+			<tr>
+				<td><label for="id">Id</label></td>
+				<td>dyshim123</td>
+			</tr>
+			<tr>
+				<td><label for="name">Name</label></td>
+				<td>심다영</td>
+			</tr>
+			<tr>
+				<td><label for="age">Age</label></td>
+				<td>23</td>
+			</tr>
+			<tr>
+				<td><label for="phone">Phone</label></td>
+				<td>0102938373</td>
+			</tr>
+			<tr>
+				<td><label for="email">Email</label></td>
+				<td>dyshim123@daum.net</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<table style="margin: auto;">
+		<tr>
+			<td style="padding-left: 20px;">
+				<button type="button" class="butt"
+					onclick="location.href='memberUpdateForm.jsp'">수정</button>
+			</td>
+			<td style="padding-left: 20px;">
+				<button type="button" class="butt"
+					onclick="location.href='memberDeleteForm.jsp'">탈퇴</button>
+			</td>
+		</tr>
+	</table>
+	</div>
+	<script src="../../assets/js/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<%@ include file="../footer.jsp"%>

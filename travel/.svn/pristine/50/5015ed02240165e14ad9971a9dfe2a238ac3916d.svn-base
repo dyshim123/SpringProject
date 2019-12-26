@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       			http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+                http://www.springframework.org/schema/context 
+                http://www.springframework.org/schema/context/spring-context-4.2.xsd
+                http://www.springframework.org/schema/util
+       			http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<context:component-scan base-package="com">
+       <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+	<!-- 환경설정 관련  사항 -->
+	<util:properties id="config" location="classpath:conf/app.properties" />
+
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:/roadruwa/message/message-common</value>
+				<value>classpath:/egovframework/rte/fdl/idgnr/messages/idgnr</value>
+				<value>classpath:/egovframework/rte/fdl/property/messages/properties</value>
+			</list>
+		</property>
+		<property name="cacheSeconds">
+			<value>60</value>
+		</property>
+	</bean>
+	
+	<!-- 
+	Exception Handling 서비스(시작)
+	LeaveaTrace 클래스의 목적은 Exception 을 발생하지 않고 후처리로직만을 실행하고자 만들어졌다.
+ 		* EgovAbstractServiceImpl 를 상속받은 경우 leavaTrace(메세지키) 형태로 실행을 하면 설정에 등록된 후처리 로직을 실행한다.
+ 		* 그리고 나서 원래 로직으로 돌아와 나머지 수행을 한다.
+ 	http://www.egovframe.go.kr/wiki/doku.php?id=egovframework:rte:bsl:exception_handling&s[]=leaveatrace
+	 -->
+	<bean id="leaveaTrace" class="egovframework.rte.fdl.cmmn.trace.LeaveaTrace">
+		<property name="traceHandlerServices">
+			<list>
+				<ref bean="traceHandlerService" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="traceHandlerService" class="egovframework.rte.fdl.cmmn.trace.manager.DefaultTraceHandleManager">
+		<property name="reqExpMatcher">
+			<ref bean="antPathMater" />
+		</property>
+		<property name="patterns">
+			<list>
+				<value>*</value>
+			</list>
+		</property>
+		<property name="handlers">
+			<list>
+				<ref bean="defaultTraceHandler" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="antPathMater" class="org.springframework.util.AntPathMatcher" />
+	
+	<bean id="defaultTraceHandler" class="egovframework.rte.fdl.cmmn.trace.handler.DefaultTraceHandler" />
+	<!-- 
+	Exception Handling 서비스(끝)
+	 -->
+</beans>

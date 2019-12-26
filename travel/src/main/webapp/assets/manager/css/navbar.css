@@ -1,0 +1,39 @@
+@import url("font-awesome.min.css");
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,300italic,400italic");
+#nnaa{
+   z-index:-10;
+   width:100%;
+   height:60px;
+      font-size:1.2em;
+   color:white;
+   padding-top:5px;
+   
+}
+img{
+   height:45px;
+}
+.alignid{
+   width:50%
+   text-align:right;
+   float:right;
+   margin-top:7px;
+}
+.lolo{
+   color:white;
+   margin-left:20px;
+   width:30%;
+   text-align:left;
+   float:left;
+}
+.sp{
+   margin:15px;
+   color:white;
+}
+body {
+  position: absolute;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 800px;
+}

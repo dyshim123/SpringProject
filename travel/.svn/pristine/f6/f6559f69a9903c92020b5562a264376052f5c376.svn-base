@@ -1,0 +1,112 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="../../assets/js/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../../assets/css/header.css" />
+<link rel="stylesheet"
+	href="../../assets/bootstrap-4.1.0/css/bootstrap.min.css">
+<title>Insert title here</title>
+
+</head>
+<body>
+	<script type="text/javascript">
+		$(function() {
+			$("#idck").click(function() {
+				/*  	var uId = $('#uId').val();
+				 	alert(uId); */
+				var formData = new FormData();
+				formData.append("uId", $('#uId').val());
+				alert(formData);
+				$.ajax({
+					type : "POST",
+					url : 'idcheck.do',
+					processData : false,
+					contentType : false,
+					data : formData,
+					success : function(data) { //요청에 성공햇을 떄 행위
+						if (data == 1) {
+							alert("사용불가능");
+						} else {
+							alert("사용가능");
+						}
+					}
+				});
+			});
+		});
+	</script>
+	<!-- joinModal -->
+
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header" style="padding: 35px 50px;">
+
+				<h1>회원가입</h1>
+			</div>
+			<div class="modal-body" style="padding: 40px 50px;">
+				<form name="form2" action="insertUserVo.do" method="post">
+					<div class="form-group">
+						<label for="user_id"><span
+							class="glyphicon glyphicon-user"></span> ID</label> <input type="text"
+							class="form-control" id="uId" name="uId" placeholder="아이디"
+							required> <input type="button" id="idck" name="idck"
+							class="btn btn-ff btn-block">
+					</div>
+					<div class="form-group">
+						<label for="psw"><span
+							class="glyphicon glyphicon-eye-open"></span> Password</label> <input
+							type="password" class="form-control" id="u_pwd" name="u_pwd"
+							placeholder="비밀번호" required>
+					</div>
+					<div class="form-group">
+						<label for="name"><span
+							class="glyphicon glyphicon-eye-open"></span> name</label> <input
+							type="text" class="form-control" id="uName" name="uName"
+							placeholder="이름" required>
+					</div>
+					<div class="form-group">
+						<label for="age"><span
+							class="glyphicon glyphicon-eye-open"></span> Age</label> <input
+							type="text" class="form-control" id="uAge" name="uAge"
+							placeholder="나이" required>
+					</div>
+					<div class="form-group">
+						<label for="phone"><span
+							class="glyphicon glyphicon-eye-open"></span> Phone</label> <input
+							type="text" class="form-control" id="uPhone" name="uPhone"
+							placeholder="전화번호" required>
+					</div>
+					<div class="form-group">
+						<label for="email"><span
+							class="glyphicon glyphicon-eye-open"></span> Email</label> <input
+							type="text" class="form-control" id="uEmail" name="uEmail"
+							placeholder="이메일" required>
+					</div>
+					<div class="form-group">
+						<label for="gender"><span
+							class="glyphicon glyphicon-eye-open"></span> Gender</label>
+
+						<div class="btn-group col-sm-8" data-toggle="buttons">
+							<label class="btn btn-primary active"> <input
+								type="radio" name="uGender" autocomplete="off" value="여자"
+								checked>여자
+							</label> <label class="btn btn-primary"> <input type="radio"
+								name="uGender" autocomplete="off" value="남자">남자
+							</label>
+						</div>
+					</div>
+					<button id="sub" class="btn btn-ff btn-block">
+						<span class="glyphicon glyphicon-off"></span> join
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

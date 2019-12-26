@@ -1,0 +1,119 @@
+package com.roadruwa.vo;
+
+import java.util.Date;
+
+public class BoardVo {
+	private Integer bNum;
+	private String bTitle;
+	private String bPic1;
+	private String bPic2;
+	private String bPic3;
+	private String bCate;
+	private String bLo;
+	private String bTr;
+	private Integer bDay1;
+	private Integer bDay2;
+	private String bOne;
+	private Integer bAc;
+	private String uId;
+	private Integer bPrice;	
+	private String  appr;
+	private Date bCreateDt;
+	
+	public Integer getbNum() {
+		return bNum;
+	}
+	public void setbNum(Integer bNum) {
+		this.bNum = bNum;
+	}
+	public String getbTitle() {
+		return bTitle;
+	}
+	public void setbTitle(String bTitle) {
+		this.bTitle = bTitle;
+	}
+	public String getbPic1() {
+		return bPic1;
+	}
+	public void setbPic1(String bPic1) {
+		this.bPic1 = bPic1;
+	}
+	public String getbPic2() {
+		return bPic2;
+	}
+	public void setbPic2(String bPic2) {
+		this.bPic2 = bPic2;
+	}
+	public String getbPic3() {
+		return bPic3;
+	}
+	public void setbPic3(String bPic3) {
+		this.bPic3 = bPic3;
+	}
+	public String getbCate() {
+		return bCate;
+	}
+	public void setbCate(String bCate) {
+		this.bCate = bCate;
+	}
+	public String getbLo() {
+		return bLo;
+	}
+	public void setbLo(String bLo) {
+		this.bLo = bLo;
+	}
+	public String getbTr() {
+		return bTr;
+	}
+	public void setbTr(String bTr) {
+		this.bTr = bTr;
+	}
+	public Integer getbDay1() {
+		return bDay1;
+	}
+	public void setbDay1(Integer bDay1) {
+		this.bDay1 = bDay1;
+	}
+	public Integer getbDay2() {
+		return bDay2;
+	}
+	public void setbDay2(Integer bDay2) {
+		this.bDay2 = bDay2;
+	}
+	public String getbOne() {
+		return bOne;
+	}
+	public void setbOne(String bOne) {
+		this.bOne = bOne;
+	}
+	public Integer getbAc() {
+		return bAc;
+	}
+	public void setbAc(Integer bAc) {
+		this.bAc = bAc;
+	}
+	public String getuId() {
+		return uId;
+	}
+	public void setuId(String uId) {
+		this.uId = uId;
+	}
+	public Integer getbPrice() {
+		return bPrice;
+	}
+	public void setbPrice(Integer bPrice) {
+		this.bPrice = bPrice;
+	}
+	public String getAppr() {
+		return appr;
+	}
+	public void setAppr(String appr) {
+		this.appr = appr;
+	}
+	public Date getbCreateDt() {
+		return bCreateDt;
+	}
+	public void setbCreateDt(Date bCreateDt) {
+		this.bCreateDt = bCreateDt;
+	}
+}

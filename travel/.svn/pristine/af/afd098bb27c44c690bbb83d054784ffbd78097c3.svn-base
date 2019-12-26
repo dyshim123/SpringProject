@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!-- 
+	exclude-filter을 설정하지 않으면 exceptionTransfer가 정상작동하지 않음.
+	AOP가 안되는건지,,, 다른 이유가 있는 건지 아직 모름.
+	 -->
+	<context:component-scan base-package="com">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+	
+	<!--  mvc:annotation-driven 관련(시작)-->
+	<!-- support JSR303 annotation if JSR 303 validation present on classpath -->
+ 	
+	<!-- 
+	위에 것을 하니까....
+	RequestMappingHandlerAdapter와 RequestMappingHandlerMapping가 작동을 안하네...
+	이것 때문에 삽질을 좀 함....
+	 -->
+	<!--  mvc:annotation-driven 관련(끝)
+	<mvc:annotation-driven />
+	-->
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	    <property name="order" value="0" />
+	</bean>
+		
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	    <property name="webBindingInitializer">
+	        <bean class="com.roadruwa.comm.web.EgovBindingInitializer">
+	            <property name="validator" ref="validator" />
+	        </bean>	               
+	    </property>
+
+	    <property name="messageConverters">
+	        <list>
+	           <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+	           <bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+	           <bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+	           <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+	        </list>
+	    </property>
+	 </bean>
+	
+	<bean id="conversion-service" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />	
+
+				
+	<!-- locale설정(S) -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="kr"/> 
+	</bean>
+	<!--bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/--> 
+	<!-- locale설정(S) -->
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="2" />
+	</bean>
+
+	<!-- regular spring resolver -->
+	<bean id="spring.RegularCommonsMultipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+		<property name="maxInMemorySize" value="100000000" />
+	</bean>
+
+	<alias name="spring.RegularCommonsMultipartResolver" alias="multipartResolver" />
+
+	<!-- 뷰설정 : 시작 --> 
+	<!-- Bean name으로 설정 : 시작 -->
+	<bean id="beanNameResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0" />	
+	<!-- Bean name으로 설정 : 끝 -->
+	
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="cmmn/egovError"/>
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.springframework.dao.DataAccessException">cmmn/dataAccessFailure</prop>
+                <prop key="org.springframework.transaction.TransactionException">cmmn/transactionFailure</prop>
+                <prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">cmmn/egovError</prop>
+                <prop key="org.springframework.security.AccessDeniedException">cmmn/egovError</prop>
+            </props>
+        </property>
+    </bean>
+	
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*.do" />
+			<mvc:exclude-mapping path="/indexPage.do" /> <!-- spring 3.2부터 적용가능 -->
+			<mvc:exclude-mapping path="/loginCheck.do" />			
+			<bean class="com.roadruwa.comm.web.Interceptor" />
+		</mvc:interceptor>
+ 		<mvc:interceptor>
+			<mvc:mapping path="/**/*.do" />
+			<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+				<property name="paramName" value="language" />
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+</beans>

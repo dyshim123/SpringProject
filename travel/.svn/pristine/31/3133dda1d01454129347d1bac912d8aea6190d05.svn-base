@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roadruwa.dao.UserDao">
+	<resultMap id="userMap" type="UserVo">
+		<id column="u_id" property="uId" jdbcType="VARCHAR" />
+		<result column="u_pwd" property="uPwd" jdbcType="VARCHAR" />
+		<result column="u_name" property="uName" jdbcType="VARCHAR" />
+		<result column="u_age" property="uAge" jdbcType="DECIMAL" />
+		<result column="u_type" property="uType" jdbcType="VARCHAR" />
+		<result column="u_image" property="uImage" jdbcType="VARCHAR" />
+		<result column="u_phone" property="uPhone" jdbcType="VARCHAR" />
+		<result column="u_gender" property="uGender" jdbcType="VARCHAR" />
+		<result column="u_email" property="uEmail" jdbcType="VARCHAR" />
+		<result column="u_reg" property="uReg" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<sql id="UserVo_column">
+		a.u_id, a.u_pwd, a.u_name, a.u_age, a.u_type, a.u_image, a.u_phone, a.u_gender, a.u_email, a.u_reg
+	</sql>
+	
+	<select id="getUserVoItem" resultMap="userMap" parameterType="String">
+		select
+			<include refid="UserVo_column" />
+		from users a
+		where a.u_id = #{userid}
+	</select>
+	
+	
+	<update id="updateUserVo" parameterType="userVo" >
+		UPDATE user_mst
+		<set>
+			<if test="userName != null">
+				USER_NAME = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="pswd != null">
+				PSWD = #{pswd,jdbcType=VARCHAR},
+			</if>
+			<if test="org != null">
+				ORG = #{org,jdbcType=VARCHAR},
+			</if>
+			<if test="dept != null">
+				DEPT = #{dept,jdbcType=VARCHAR},
+			</if>
+			<if test="pos != null">
+				POS = #{pos,jdbcType=VARCHAR},
+			</if>
+			<if test="gubun != null">
+				GUBUN = #{gubun,jdbcType=VARCHAR},
+			</if>
+			<if test="officeNum != null">
+				OFFICE_NUM = #{officeNum,jdbcType=VARCHAR},
+			</if>
+			<if test="cellNum != null">
+				CELL_NUM = #{cellNum,jdbcType=VARCHAR},
+			</if>
+			<if test="homeNum != null">
+				HOME_NUM = #{homeNum,jdbcType=VARCHAR},
+			</if>
+			<if test="stDt != null">
+				ST_DT = #{stDt,jdbcType=VARCHAR},
+			</if>
+			<if test="edDt != null">
+				ED_DT = #{edDt,jdbcType=VARCHAR},
+			</if>
+
+			<if test="isCtrl != null">
+				IS_CTRL = #{isCtrl,jdbcType=VARCHAR},
+			</if>
+			<if test="userStat != null">
+				USER_STAT = #{userStat,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			UPDT_DT = current_timestamp
+		</set>
+		WHERE USERID= #{userid}
+	</update>
+</mapper>

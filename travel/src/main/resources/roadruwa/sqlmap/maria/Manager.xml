@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roadruwa.dao.ManagerDao">
+<resultMap id="userMap" type="UserVo">
+		<id column="u_id" property="uId" jdbcType="VARCHAR" />
+		<result column="u_pwd" property="uPwd" jdbcType="VARCHAR" />
+		<result column="u_name" property="uName" jdbcType="VARCHAR" />
+		<result column="u_age" property="uAge" jdbcType="DECIMAL" />
+<!-- 		<result column="u_type" property="uType" jdbcType="VARCHAR" />
+		<result column="u_image" property="uImage" jdbcType="VARCHAR" /> -->
+		<result column="u_phone" property="uPhone" jdbcType="VARCHAR" />
+		<result column="u_gender" property="uGender" jdbcType="VARCHAR" />
+		<result column="u_email" property="uEmail" jdbcType="VARCHAR" />
+		<result column="u_authkey" property="authkey" jdbcType="VARCHAR" />
+		<result column="u_authstatus" property="authstatus" jdbcType="DECIMAL" />
+		<result column="u_reg" property="uReg" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<resultMap id="boardMap" type="BoardVo">
+		<id column="b_num" property="bNum" jdbcType="DECIMAL" />
+		<result column="b_title" property="bTitle" jdbcType="VARCHAR" />
+		<result column="b_pic1" property="bPic1" jdbcType="VARCHAR" />
+		<result column="b_pic2" property="bPic2" jdbcType="VARCHAR" />
+		<result column="b_pic3" property="bPic3" jdbcType="VARCHAR" />
+		<result column="b_cate" property="bCate" jdbcType="VARCHAR" />
+		<result column="b_lo" property="bLo" jdbcType="VARCHAR" />
+		<result column="b_tr" property="bTr" jdbcType="VARCHAR" />
+		<result column="b_day1" property="bDay1" jdbcType="DECIMAL" />
+		<result column="b_day2" property="bDay2" jdbcType="DECIMAL" />
+		<result column="b_one" property="bOne" jdbcType="VARCHAR" />
+		<result column="b_ac" property="bAc" jdbcType="DECIMAL" />
+		<result column="u_id" property="uId" jdbcType="VARCHAR" />
+		<result column="b_price" property="bPrice" jdbcType="DECIMAL" />
+		<result column="appr" property="appr" jdbcType="VARCHAR" />
+		<result column="b_create_dt" property="bCreateDt" jdbcType="TIMESTAMP" />
+		<result column="count" property="count" jdbcType="DECIMAL" />
+		<result column="locount" property="locount" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="messageMap" type="MessageVo">
+	 <id column="m_num" property="mNum" jdbcType="DECIMAL" />
+	  <result column="m_sid" property="mSid" jdbcType="VARCHAR" />
+	  <result column="m_content" property="mContent" jdbcType="VARCHAR" />
+	  <result column="m_date" property="mDate" jdbcType="TIMESTAMP" />
+	  <result column="b_num" property="bNum" jdbcType="DECIMAL" />
+	   <result column="u_id" property="uId" jdbcType="VARCHAR" />
+	   <result column="s_id" property="sId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="boardcomMap" type="CommentVo">
+	  <id column="c_num" property="cNum" jdbcType="DECIMAL" />
+	  <result column="c_content" property="cContent" jdbcType="VARCHAR" />
+	  <result column="c_reg" property="cReg" jdbcType="TIMESTAMP" />
+	  <result column="b_num" property="bNum" jdbcType="DECIMAL" />
+	  <result column="c_id" property="cId" jdbcType="VARCHAR" />
+	  <result column="star" property="Star" jdbcType="VARCHAR" />
+	  <result column="c_pic" property="cPic" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="noAppr" resultMap="boardMap">
+	 select * from board where appr = '미승인'
+	</select>
+	
+	<select id="cateList" resultMap="boardMap">
+	select count(b_cate) as count, b_cate from board group by b_cate
+	</select>
+	
+	<select id="locationList" resultMap="boardMap">
+	select count(b_lo) as locount, b_lo from board group by b_lo;
+	</select>
+	
+	<select id="replymsg" resultMap="messageMap" parameterType="int">
+	 select * from message where m_num = #{mNum}
+	</select>
+	
+	<select id="yesAppr" resultMap="boardMap">
+	 select * from board where appr = '승인'
+	</select>
+	
+	<select id="userList" resultMap="userMap">
+	select * from users where u_authstatus = 1
+	</select>
+	
+	<delete id="boarddelete" parameterType="String">
+	 delete from board where b_num = #{b_num}
+	</delete>
+	
+	<select id="getmsg" resultMap="messageMap">
+	  select * from message where s_id = '관리자'
+	</select>
+	
+	<select id="sendmsg" resultMap="messageMap">
+	select * from message where u_id = '관리자'
+	</select>
+	
+	<insert id="messagereply" parameterType="MessageVo">
+	 insert into message(m_sid,m_content,m_date,b_num,u_id,s_id) values(#{mSid}, #{mContent}, current_timestamp, 0, '관리자', #{sId})
+	</insert>
+	
+	<update id="update" parameterType="UserVo">
+	 update users set u_pwd = #{uPwd}, u_name = #{uName}, u_phone = #{uPhone}, u_email = #{uEmail} where u_id = #{uId}
+	</update>
+	
+	<update id="apprUpdate" parameterType="String">
+	 update board set appr = '승인' where b_num = #{b_num}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+	   delete from users where u_id = #{uId}
+	</delete>
+</mapper>

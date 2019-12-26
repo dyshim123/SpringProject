@@ -1,0 +1,196 @@
+@import url("font-awesome.min.css");
+@import
+	url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,300italic,400italic")
+	;
+
+@charset "UTF-8";
+z
+.but {
+	text-align: center;
+	margin: 20px;
+}
+
+.but a {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+h2 b {
+	margin-left: 10px;
+}
+
+#imag {
+	padding: 50px;
+}
+
+.pp {
+	float: left;
+	font-size: 15px;
+	margin-top: 10px;
+}
+
+.ss {
+	float: left;
+	margin: 15px;
+}
+
+form {
+	color: #646464;
+}
+
+#wf {
+	border: 2px;
+	border-color: #c0c0c0;
+	border-style: solid;
+	padding: 30px;
+	border-radius: 10px;
+}
+
+#imgtitle {
+	font-size: 25px;
+	margin-top: 100px;
+}
+
+#imgtitle2 {
+	margin-top: 100px;
+}
+
+input[type="text"]:disabled {
+	background: #f5f5f5;
+}
+
+.form-check {
+	padding: 2px;
+}
+
+.d_container {
+	display: block;
+	position: relative;
+	padding-left: 35px;
+	margin: 1px 9px 1px 1px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	font-size: 12pt;
+	font-weight: normal;
+}
+
+.d_container input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+.d_checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 25px;
+	width: 25px;
+	background-color: #eee;
+}
+
+.d_container:hover input ~ .d_checkmark {
+	background-color: #ccc;
+}
+
+.d_container input:checked ~ .d_checkmark {
+	background-color: #2C96ED;
+}
+
+.d_checkmark:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+
+.d_container input:checked ~ .d_checkmark:after {
+	display: block;
+}
+
+.d_container .d_checkmark:after {
+	left: 9px;
+	top: 5px;
+	width: 5px;
+	height: 10px;
+	border: solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.b_container-fluid {
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+body {
+  background-color: #f5f5f5;
+  font-weight: 300;
+}
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  transition: all .25s ease;
+}
+.accordian {
+  width: 500px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  margin: 5% auto;
+  color: #b5b5b5;
+}
+.accordian .title {
+  background-color: #fff;
+  color: #8f8f8f;
+  padding: 1rem;
+  margin: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-weight: 300;
+  transition: all .25s ease;
+}
+.accordian .title:hover {
+  background-color: rgba(0, 0, 0, 0.005);
+}
+.accordian ul li:last-child .title {
+  border-bottom: 0;
+}
+.accordian ul ul li a {
+  display: block;
+  background-color: #eee;
+  padding: 1rem;
+  color: #777;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.accordian ul ul li a:hover {
+  background-color: #55acee;
+  color: #fff;
+}
+.accordian ul ul {
+  display: none;
+}
+.open {
+  transform: rotate(45deg);
+  transition: all .25s ease;
+}
+.accordian ul ul li:last-child a {
+  border-bottom: 0;
+}
+
+.accordian h3 {
+  cursor: pointer;
+}

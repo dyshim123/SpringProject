@@ -1,0 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+	<!-- Scripts -->
+	<script src="../../../assets/manager/js/jquery.min.js"></script>
+	<script src="../../../assets/manager/js/browser.min.js"></script>
+	<script src="../../../assets/manager/js/breakpoints.min.js"></script>
+	<script src="../../../assets/manager/js/util.js"></script>
+	<script src="../../../assets/manager/js/main.js"></script>
+</body>
+</html>

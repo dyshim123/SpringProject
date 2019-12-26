@@ -1,0 +1,13 @@
+package com.roadruwa.service;
+
+import java.util.List;
+import com.roadruwa.vo.PointVo;
+import com.roadruwa.vo.UserVo;
+
+public interface PointService {
+	
+	public void write(PointVo point);
+	
+	public List<PointVo> pointList(String u_id);
+
+}

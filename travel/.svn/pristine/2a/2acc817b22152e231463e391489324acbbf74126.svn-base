@@ -1,0 +1,13 @@
+package com.roadruwa.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.roadruwa.vo.BoardVo;
+
+public interface BoardDao {
+	public List<BoardVo> getBoardList(@Param("lotation")String lotation, @Param("day")Integer day,
+			@Param("cost")Integer cost, @Param("trans")String trans, @Param("tema")String tema,
+			@Param("search")String search);
+}

@@ -1,0 +1,39 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="header.jsp" %>
+<script>
+var a =" ${msg}";
+if (a != null && a != " "){
+alert(a);
+location.href="loginForm.do";
+
+}
+</script>
+<div id="wrapper">
+      <div id="main">
+         <div class="inner">
+            <div class="row">
+               <div class="col-lg-3 col-xs-6">
+                  <div class="rad-info-box rad-txt-success">
+                     <a href="user.jsp"><i class="fa fa-user" style="padding-top: 20px;"></i> <span class="heading">회원현황</span>
+                        <span class="value">5</span></a>
+                  </div>
+               </div>
+               <div class="col-lg-3 col-xs-6">
+                  <div class="rad-info-box rad-txt-primary">
+                     <a href="product1.jsp"><i class="fa fa-file-text" style="padding-top: 18px;"></i> <span
+                        class="heading">미승인 상품</span> <span class="value">7</span></a>
+                  </div>
+               </div>
+               <div class="col-lg-3 col-xs-6">
+                  <div class="rad-info-box rad-txt-danger">
+                     <a href="QA1.jsp"><i class="fa fa-commenting" style="padding-top: 15px;"></i> <span
+                        class="heading">받은 쪽지</span> <span class="value">9</span></a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      </div>
+<%@ include file="footer.jsp" %>
